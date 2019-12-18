@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="top"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+   
+   <EditText
+     android:id="@+id/text_input"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:inputType="text"/>
+
+  <Button
+      android:id="@+id/text_sender"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="Send to Server"/>
+
+  <TextView
+      android:id="@+id/server_result_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:inputType="textMultiLine"
+      android:text="Result text here"/>
+</LinearLayout>

@@ -1,0 +1,101 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+skylib_version = "0.8.0"
+
+http_archive(
+    name = "bazel_skylib",
+    url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
+)
+
+git_repository(
+    name ="build_bazel_rules_apple",
+    commit="1445924a158a89ad634f562c84a600a3435ef8c2",
+    remote="https://github.com/bazelbuild/rules_apple.git",
+)
+
+load(
+    "@build_bazel_rules_apple//apple:repositories.bzl",
+    "apple_rules_dependencies",
+)
+apple_rules_dependencies()
+
+load(
+"@build_bazel_rules_swift//swift:repositories.bzl",
+"swift_rules_dependencies",
+)
+swift_rules_dependencies()
+load(
+"@build_bazel_apple_support//lib:repositories.bzl",
+"apple_support_dependencies",
+)
+apple_support_dependencies()
+
+http_archive(
+    name = "io_bazel_rules_go",
+    urls = ["https://github.com/bazelbuild/rules_go/releases/download/v0.19.5/rules_go-v0.19.5.tar.gz"],
+)
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains")
+go_rules_dependencies()
+go_register_toolchains()
+
+http_archive(
+    name = "rules_proto",
+    strip_prefix = "rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313",
+    urls = ["https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",],
+)
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+rules_proto_dependencies()
+rules_proto_toolchains()
+
+http_archive(
+    name = "io_grpc_grpc_java",
+    urls = ["https://github.com/grpc/grpc-java/archive/f9509694b996c02c140928bf2882b4a4ec96e92f.tar.gz"],
+    strip_prefix = "grpc-java-f9509694b996c02c140928bf2882b4a4ec96e92f",
+)
+load("@io_grpc_grpc_java//:repositories.bzl", "grpc_java_repositories")
+grpc_java_repositories()
+
+http_archive(
+    name = "bazel_gazelle",
+    urls = ["https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.19.1/bazel-gazelle-v0.19.1.tar.gz"],
+)
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
+gazelle_dependencies()
+
+go_repository(
+    name = "org_golang_google_grpc",
+    build_file_proto_mode = "disable",
+    importpath = "google.golang.org/grpc",
+    sum = "h1:J0UbZOIrCAl+fpTOf8YLs4dJo8L/owV4LYVtAXQoPkw=",
+    version = "v1.22.0",
+)
+
+go_repository(
+    name = "org_golang_x_net",
+    importpath = "golang.org/x/net",
+    sum = "h1:oWX7TPOiFAMXLq8o0ikBYfCJVlRHBcsciT5bXOrH628=",
+    version = "v0.0.0-20190311183353-d8887717615a",
+)
+
+go_repository(
+    name = "org_golang_x_text",
+    importpath = "golang.org/x/text",
+    sum = "h1:g61tztE5qeGQ89tm6NTjjM9VPIm088od1l6aSorWRWg=",
+    version = "v0.3.0",
+)
+
+http_archive(
+    name = "rules_android",
+    urls = ["https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip"],
+    strip_prefix = "rules_android-0.1.1",
+)
+android_sdk_repository(name = "androidsdk")
+
+# Using --incompatible_disable_deprecated_attr_params=false allows you to skip this particular inclusion in the WORKSPACE.
+# http_archive(
+#     name = "com_google_protobuf_javalite",
+#     strip_prefix = "protobuf-javalite",
+#     urls = ["https://github.com/google/protobuf/archive/javalite.zip"],
+# )

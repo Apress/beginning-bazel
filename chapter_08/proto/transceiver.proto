@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "proto/transmission_object.proto";
+
+package transceiver;
+
+message EchoRequest {
+    transmission_object.TransmissionObject from_client = 1;
+}
+
+message EchoResponse {
+    transmission_object.TransmissionObject from_server = 1;
+}
+
+message UpperCaseRequest {
+    string original = 1;
+}
+
+message UpperCaseResponse {
+    string upper_cased = 1;
+}
+
+service Transceiver {
+    rpc Echo (EchoRequest) returns (EchoResponse);
+    rpc UpperCase (UpperCaseRequest) returns (UpperCaseResponse);
+}
